@@ -1,3 +1,5 @@
+'use server'
+
 import { UserProvider } from '../../context/UserContext';
 import { cookies } from 'next/headers';
 
