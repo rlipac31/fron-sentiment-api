@@ -7,10 +7,10 @@ import { FaceSmileIcon, FaceFrownIcon, ChatBubbleLeftRightIcon, ChatBubbleBottom
 import { useUser } from '@/context/UserContext';
 
 
-interface SentimentAnalysisResult {
-  comment: string;
-  sentiment: 'POSITIVO' | 'NEGATIVO';
-  score: number;
+interface SentimentResult {
+  comentario: string;
+  prevision: 'POSITIVO' | 'NEGATIVO';
+  provabilidad: number;
 }
 
 
@@ -23,7 +23,7 @@ export default function StatisticsPage() {
   // const token = await cookieStore.get("session_token");
   const [comment, setComment] = useState('');
   const [results, setResults] = useState<SentimentResult[]>([]);
-  const [midata, setMidata] = useState<SentimentResult[]>([]);
+  const [midata, setMidata] = useState<{ total_en_pagina: number; positivos: number; negativos: number } | null>(null);
   const [loading, setLoading] = useState(false);
   // console.log("tokennnn  ", token)
 
@@ -111,7 +111,7 @@ export default function StatisticsPage() {
               <ChatBubbleBottomCenterTextIcon className="w-6 h-6" />
             </div>
             <span className="text-gray-500 text-xs font-medium uppercase">Total Comentarios</span>
-            <p className="text-3xl font-bold text-gray-800">{midata.total_en_pagina}</p>
+            <p className="text-3xl font-bold text-gray-800">{midata?.total_en_pagina ?? 0}</p>
           </div>
 
           {/* Card: Positivos */}
@@ -120,7 +120,7 @@ export default function StatisticsPage() {
               <FaceSmileIcon className="w-6 h-6" />
             </div>
             <span className="text-gray-500 text-xs font-medium uppercase">Positivos</span>
-            <p className="text-3xl font-bold text-green-700">{midata.positivos}</p>
+            <p className="text-3xl font-bold text-green-700">{midata?.positivos}</p>
           </div>
 
           {/* Card: Negativos */}
@@ -129,7 +129,7 @@ export default function StatisticsPage() {
               <FaceFrownIcon className="w-6 h-6" />
             </div>
             <span className="text-gray-500 text-xs font-medium uppercase">Negativos</span>
-            <p className="text-3xl font-bold text-red-700">{midata.negativos}</p>
+            <p className="text-3xl font-bold text-red-700">{midata?.negativos}</p>
           </div>
 
         </div>

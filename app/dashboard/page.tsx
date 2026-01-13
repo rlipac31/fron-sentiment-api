@@ -115,11 +115,11 @@ export default  function DashboardPage() {
                     </td>
                     <td className="px-6 py-4 text-center">
                       <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase ${
-                        res.prevision === 'positivo' 
+                        res.prevision === 'POSITIVO' 
                           ? 'bg-green-100 text-green-700' 
                           : 'bg-red-100 text-red-700'
                       }`}>
-                        {res.prevision === 'positivo' ? <FaceSmileIcon className="h-4 w-4 mr-1"/> : <FaceFrownIcon className="h-4 w-4 mr-1"/>}
+                        {res.prevision === 'POSITIVO' ? <FaceSmileIcon className="h-4 w-4 mr-1"/> : <FaceFrownIcon className="h-4 w-4 mr-1"/>}
                         {res.prevision}
                       </span>
                     </td>
@@ -131,7 +131,7 @@ export default  function DashboardPage() {
                         {/* Barra de progreso miniatura */}
                         <div className="w-16 h-1.5 bg-gray-200 rounded-full mt-1 overflow-hidden">
                           <div 
-                            className={`h-full rounded-full ${res.prevision === 'positivo' ? 'bg-green-500' : 'bg-red-500'}`}
+                            className={`h-full rounded-full ${res.prevision === 'POSITIVO' ? 'bg-green-500' : 'bg-red-500'}`}
                             style={{ width: `${res.probabilidad * 100}%` }}
                           />
                         </div>
