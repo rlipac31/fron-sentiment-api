@@ -3,11 +3,13 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 
 // 1. Definimos la forma de los datos
+
+
 interface UserData {
-  token: string;
-  idUser:string;
+  idUser: number | string;
   name: string;
   role: string;
+  token: string;
 }
 
 interface UserContextType {

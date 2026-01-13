@@ -2,6 +2,7 @@
 
 import { UserProvider } from '../../context/UserContext';
 import { cookies } from 'next/headers';
+import { UserData}  from '../../types';
 
 import Sidebar from '../components/Sidebar';
 
@@ -15,9 +16,14 @@ export default async function DashboardLayout({
     const cookieStore = await cookies();
 
   // Preparamos los datos iniciales desde el servidor
-  const initialUser = {
-    token: cookieStore.get('session_token')?.value || ''
-  };
+
+const initialUser: UserData = {
+  idUser: '',
+  name: '',
+  role: '',
+  token: cookieStore.get('session_token')?.value || '' // Supongamos que obtienes el token de cookies o una variable
+};
+  
  
   return (
     <UserProvider initialUser={initialUser}>
