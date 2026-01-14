@@ -42,17 +42,18 @@ export default function Sidebar() {
         {navigation.map((item) => {
           const isActive = pathname === item.href;
           return (
-            <Link key={item.name} href={item.href} legacyBehavior>
-              <a
-                className={`flex items-center p-3 rounded-lg text-lg font-medium transition-all duration-200
+            <Link key={item.name} href={item.href} >
+              <div
+               className={`flex  mt-2 items-center p-3 rounded-lg text-lg font-medium transition-all duration-200
                   ${isActive
                     ? 'bg-three bg-opacity-20 text-white shadow-md border-l-4 border-five/90 pl-2'
                     : 'text-white hover:bg-four     hover:bg-opacity-10'
                   }`}
               >
-                <item.icon className="h-6 w-6 mr-4" />
+                   <item.icon className="h-6 w-6 mr-4" />
                 {item.name}
-              </a>
+              </div>
+              
             </Link>
           );
         })}

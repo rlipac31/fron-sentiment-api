@@ -2,7 +2,14 @@
 "use client";
 
 import { useState } from 'react';
-import { FaceSmileIcon, FaceFrownIcon, ChatBubbleLeftRightIcon, ChatBubbleBottomCenterTextIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
+import {
+  FaceSmileIcon,
+  FaceFrownIcon,
+  ChatBubbleLeftRightIcon,
+  ChatBubbleBottomCenterTextIcon,
+  ExclamationCircleIcon
+} from '@heroicons/react/24/outline';
 //coockies
 import { useUser } from '@/context/UserContext';
 
@@ -25,15 +32,36 @@ export default function StatisticsPage() {
   const [results, setResults] = useState<SentimentResult[]>([]);
   const [midata, setMidata] = useState<{ total_en_pagina: number; positivos: number; negativos: number } | null>(null);
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+
+  if (!token) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] bg-white rounded-2xl border border-dashed border-red-200 p-8 shadow-sm">
+        <ExclamationCircleIcon className="h-12 w-12 text-red-400 mb-4" />
+        <h2 className="text-xl font-bold text-gray-800">No autenticado</h2>
+        <p className="text-gray-500 text-center mt-2">
+          Tu sesión ha expirado o no has iniciado sesión. Por favor, vuelve a ingresar.
+        </p>
+        <Link href={`/login`}>
+
+         <button
+          // O usa router.push de Next.js
+          className="mt-6 px-6 py-2 bg-primary text-white rounded-lg font-bold hover:bg-three transition-colors"
+        >
+          Ir al Login
+        </button>
+
+        </Link>
+  
+      </div>
+    );
+  }
   // console.log("tokennnn  ", token)
 
   const handleAnalyze = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    if (!token) {
-      return { error: "No estás autenticado. Por favor inicia sesión." };
-    }
     // 1. Convertimos el comentario único en el formato de lista que espera tu API
     // Formato: [ { "texto": "valor" } ]
     const dataToAnalyze = [
@@ -42,11 +70,6 @@ export default function StatisticsPage() {
     const nunComent = parseInt(comment);
     console.log("numero de comentarios ", nunComent)
 
-    // Convertimos el input en el formato [ { "texto": "..." } ]
-    /*   const payload = comment.split('\n')
-        .filter(line => line.trim() !== "")
-        .map(line => ({ texto: line }));
-   */
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/stats?size=${nunComent}`, {
         method: "GET",
@@ -62,9 +85,13 @@ export default function StatisticsPage() {
       console.log("data  :::  ", data.total_en_pagina)
       setResults(data.content);
       setMidata(data);
-      console.log("results :: ", results)
-    } catch (error) {
-      console.error("Error:", error);
+    } catch (err: any) {
+      // Si el error es de conexión (Servidor apagado)
+      if (err.message === "Failed to fetch") {
+        setMessage("No se pudo conectar con el servidor. Verifica tu conexión.");
+      } else {
+        setMessage(err.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -100,6 +127,13 @@ export default function StatisticsPage() {
               {loading ? "Procesando..." : "Analizar"}
             </button>
           </form>
+
+
+          {message && (
+            <div className={`mt-6 p-4 rounded-xl flex items-center border `}>
+              <span className="text-sm font-semibold">{message}</span>
+            </div>
+          )}
         </div>
 
         {/* SECCIÓN 2: Estadísticas (Resto del ancho dividido en 3) */}
@@ -162,8 +196,8 @@ export default function StatisticsPage() {
                     </td>
                     <td className="px-6 py-4 text-center">
                       <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase ${res.prevision === 'POSITIVO'
-                          ? 'bg-green-100 text-green-700'
-                          : 'bg-red-100 text-red-700'
+                        ? 'bg-green-100 text-green-700'
+                        : 'bg-red-100 text-red-700'
                         }`}>
                         {res.prevision === 'POSITIVO' ? <FaceSmileIcon className="h-4 w-4 mr-1" /> : <FaceFrownIcon className="h-4 w-4 mr-1" />}
                         {res.prevision}

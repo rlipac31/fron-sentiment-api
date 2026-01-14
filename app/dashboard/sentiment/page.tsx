@@ -1,4 +1,5 @@
 export default function SentimentAnalysisPage() {
+  
   return (
     <div className="p-8 bg-gray-50">
       <h1 className="text-4xl font-extrabold text-gray-800 mb-8">Análisis de Sentimiento Detallado</h1>

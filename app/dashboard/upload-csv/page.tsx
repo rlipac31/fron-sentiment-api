@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { 
   CloudArrowUpIcon, 
   CheckCircleIcon, 
@@ -26,6 +27,32 @@ export default function UploadCsvPage() {
   const [uploadStatus, setUploadStatus] = useState<'success' | 'error' | null>(null);
   const [message, setMessage] = useState('');
   const [resultados, setResultados] = useState<AnalisisResultado[]>([]);
+ const token = user?.token;
+
+if (!token) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] bg-white rounded-2xl border border-dashed border-red-200 p-8 shadow-sm">
+        <ExclamationCircleIcon className="h-12 w-12 text-red-400 mb-4" />
+        <h2 className="text-xl font-bold text-gray-800">No autenticado</h2>
+        <p className="text-gray-500 text-center mt-2">
+          Tu sesión ha expirado o no has iniciado sesión. Por favor, vuelve a ingresar.
+        </p>
+        <Link href={`/login`}>
+
+         <button
+          // O usa router.push de Next.js
+          className="mt-6 px-6 py-2 bg-primary text-white rounded-lg font-bold hover:bg-three transition-colors"
+        >
+          Ir al Login
+        </button>
+
+        </Link>
+  
+      </div>
+    );
+  }
+
+
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -37,7 +64,9 @@ export default function UploadCsvPage() {
 
   const handleUpload = async (e: React.FormEvent) => {
   e.preventDefault();
-  const token = user?.token;
+ 
+
+
 
   if (!token) {
     setMessage("Sesión expirada. Por favor, inicia sesión nuevamente.");
