@@ -121,6 +121,7 @@ if (!token) {
 
     const data = await response.json();
     setResultados(data);
+    console.log("data:: ", data)
     setMessage('¡Excelente! El archivo se procesó correctamente.');
     setUploadStatus('success');
     setSelectedFile(null); 

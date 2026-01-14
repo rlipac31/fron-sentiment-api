@@ -10,7 +10,7 @@ import { useUser } from '../../context/UserContext';
 
 
 interface SentimentAnalysisResult {
-  comment: string;
+  texto: string;
   prevision: 'positivo' | 'negativo';
   probabilidad: number;
 }
@@ -138,7 +138,7 @@ export default  function DashboardPage() {
                 {results.map((res, index) => (
                   <tr key={index} className="hover:bg-gray-50/80 transition-colors">
                     <td className="px-6 py-4 text-gray-700 max-w-md truncate">
-                      {res.comment}
+                      {res.texto}
                     </td>
                     <td className="px-6 py-4 text-center">
                       <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase ${res.prevision === 'positivo'
