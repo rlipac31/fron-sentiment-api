@@ -16,7 +16,7 @@ import { useUser } from '@/context/UserContext';
 // Interfaz para el tipado de los datos del backend
 interface AnalisisResultado {
   texto: string;
-  prevision: string;
+  prevision: 'positivo' | 'negativo';
   probabilidad: number;
 }
 

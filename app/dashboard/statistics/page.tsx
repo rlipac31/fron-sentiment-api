@@ -16,8 +16,8 @@ import { useUser } from '@/context/UserContext';
 
 interface SentimentResult {
   comentario: string;
-  prevision: 'POSITIVO' | 'NEGATIVO';
-  probabilidad: number;
+  prevision: 'positivo' | 'negativo';
+  provabilidad: number;
 }
 
 
@@ -82,7 +82,8 @@ export default function StatisticsPage() {
       // console.log("payload:: ", payload);
 
       const data = await response.json();
-      console.log("data  :::  ", data.total_en_pagina)
+      console.log("data  :::  ", data.total_en_pagina);
+        console.log("data 2 :::  ", data)
       setResults(data.content);
       setMidata(data);
     } catch (err: any) {
@@ -195,24 +196,24 @@ export default function StatisticsPage() {
                       {res.comentario}
                     </td>
                     <td className="px-6 py-4 text-center">
-                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase ${res.prevision === 'POSITIVO'
+                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase ${res.prevision === 'positivo'
                         ? 'bg-green-100 text-green-700'
                         : 'bg-red-100 text-red-700'
                         }`}>
-                        {res.prevision === 'POSITIVO' ? <FaceSmileIcon className="h-4 w-4 mr-1" /> : <FaceFrownIcon className="h-4 w-4 mr-1" />}
+                        {res.prevision === 'positivo' ? <FaceSmileIcon className="h-4 w-4 mr-1" /> : <FaceFrownIcon className="h-4 w-4 mr-1" />}
                         {res.prevision}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-center">
                       <div className="flex flex-col items-center">
                         <span className="text-sm font-mono font-bold text-gray-600">
-                          {(res.probabilidad * 100).toFixed(1)}%
+                          {(res.provabilidad * 100).toFixed(1)}%
                         </span>
                         {/* Barra de progreso miniatura */}
                         <div className="w-16 h-1.5 bg-gray-200 rounded-full mt-1 overflow-hidden">
                           <div
-                            className={`h-full rounded-full ${res.prevision === 'POSITIVO' ? 'bg-green-500' : 'bg-red-500'}`}
-                            style={{ width: `${res.probabilidad * 100}%` }}
+                            className={`h-full rounded-full ${res.prevision === 'positivo' ? 'bg-green-500' : 'bg-red-500'}`}
+                            style={{ width: `${res.provabilidad * 100}%` }}
                           />
                         </div>
                       </div>
