@@ -47,7 +47,7 @@ export default  function DashboardPage() {
 
  // const token = await cookieStore.get("session_token");
   const [comment, setComment] = useState('');
-  const [results, setResults] = useState<SentimentResult[]>([]);
+  const [results, setResults] = useState<SentimentAnalysisResult[]>([]);
   const [loading, setLoading] = useState(false);
  /// console.log("tokennnn  ", token)
 
@@ -138,7 +138,7 @@ export default  function DashboardPage() {
                 {results.map((res, index) => (
                   <tr key={index} className="hover:bg-gray-50/80 transition-colors">
                     <td className="px-6 py-4 text-gray-700 max-w-md truncate">
-                      {res.texto}
+                      {res.comment}
                     </td>
                     <td className="px-6 py-4 text-center">
                       <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase ${res.prevision === 'positivo'
