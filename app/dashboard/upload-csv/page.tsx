@@ -9,9 +9,12 @@ import {
   ChatBubbleLeftRightIcon, 
   FaceSmileIcon, 
   FaceFrownIcon,
-  ChartBarIcon 
+  ChartBarIcon,
+  ArrowDownTrayIcon
+   
 } from '@heroicons/react/24/outline';
 import { useUser } from '@/context/UserContext';
+import { setTimeout } from 'node:timers/promises';
 
 // Interfaz para el tipado de los datos del backend
 interface AnalisisResultado {
@@ -25,6 +28,7 @@ export default function UploadCsvPage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadStatus, setUploadStatus] = useState<'success' | 'error' | null>(null);
+  const [dowLoading, setDowloading] = useState(false);
   const [message, setMessage] = useState('');
   const [resultados, setResultados] = useState<AnalisisResultado[]>([]);
  const token = user?.token;
@@ -51,9 +55,62 @@ if (!token) {
       </div>
     );
   }
+  ///inicio export CSV
+
+const handleExportCSV = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  e.preventDefault();
+ setDowloading(true)
+  if (!token) {
+    setMessage("Sesión expirada. Por favor, inicia sesión nuevamente.");
+    setUploadStatus('error');
+    return;
+  }
+
+  try {
+    // IMPORTANTE: Aquí 'resultados' es el estado donde tienes guardados 
+    // los comentarios que mostraste en el JSON anteriormente.
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/sentiment/export-csv`, {
+      method: "POST",
+      headers: { 
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json" // Especificamos que enviamos JSON
+      },
+      body: JSON.stringify(resultados), // Convertimos tu lista a string
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error ${response.status}: No se pudo generar el CSV`);
+    }
+
+    // Convertimos la respuesta en un Blob (el archivo CSV)
+    const blob = await response.blob();
+    
+    // Creamos una URL temporal para el archivo
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = "resultados_sentimiento.csv"; // Nombre del archivo que verá el usuario
+    document.body.appendChild(a);
+    a.click(); // Simulamos el click para descargar
+    
+    // Limpieza
+    a.remove();
+    window.URL.revokeObjectURL(url);
+    setDowloading(false)
+    setMessage('¡Excelente! El archivo se exportó correctamente.');
+    setUploadStatus('success');
 
 
-
+  } catch (err: any) {
+    setUploadStatus('error');
+    if (err.message === "Failed to fetch") {
+      setMessage("No se pudo conectar con el servidor.");
+    } else {
+      setMessage(err.message);
+    }
+  }
+};
+//fin
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setSelectedFile(event.target.files[0]);
@@ -65,9 +122,6 @@ if (!token) {
   const handleUpload = async (e: React.FormEvent) => {
   e.preventDefault();
  
-
-
-
   if (!token) {
     setMessage("Sesión expirada. Por favor, inicia sesión nuevamente.");
     setUploadStatus('error');
@@ -163,7 +217,7 @@ if (!token) {
 
           <button
             type="submit"
-              className="w-full bg-linear-to-r from-primary to-three text-white px-6 py-3 rounded-xl
+              className="w-full bg-linear-to-r from-primary/80 to-three text-white px-6 py-3 rounded-xl
                font-bold hover:shadow-lg hover:shadow-primary/30 transition-all active:scale-95 disabled:opacity-50"
             disabled={!selectedFile || uploading}
           >
@@ -192,6 +246,35 @@ if (!token) {
             <span className="text-xs font-bold uppercase tracking-widest text-gray-400 bg-white px-3 py-1 rounded-full border border-gray-200">
               {resultados.length} Comentarios encontrados
             </span>
+            {/* INICIO BOTON DESCARGA CSV */}
+               
+            
+                  
+                      {/* BOTÓN DE EXPORTACIÓN */}
+              <button
+                onClick={handleExportCSV}
+                disabled={dowLoading}
+                className="group relative flex items-center gap-2 px-5 py-2.5 bg-linear-to-r from-primary/80 to-three text-white text-sm font-semibold rounded-xl shadow-md shadow-emerald-200 transition-all duration-200 active:scale-95 disabled:bg-gray-300 disabled:shadow-none disabled:cursor-not-allowed"
+              >
+                {dowLoading ? (
+                  <>
+                    <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>Generando...</span>
+                  </>
+                ) : (
+                  <>
+                    <ArrowDownTrayIcon className="h-4 w-4 group-hover:translate-y-0.5 transition-transform" />
+                    <span>Exportar CSV</span>
+                  </>
+                )}
+              </button>  
+               
+            
+
+            {/* FIN BOTON DESCARGA */}
           </div>
           
           <div className="overflow-x-auto">

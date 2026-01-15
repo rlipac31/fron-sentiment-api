@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
 
   /* config options here */
     images: {
-    domains: ['https://lipa-sentiment-api.azurewebsites.net'], // Si usas imágenes externas
+    domains: ['https://lipa-sentiment-api.azurewebsites.net','http://localhost:8090'], // Si usas imágenes externas
   },
   // Esto ayuda a depurar fallos de build en Vercel
   typescript: {

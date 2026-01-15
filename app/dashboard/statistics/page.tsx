@@ -8,18 +8,41 @@ import {
   FaceFrownIcon,
   ChatBubbleLeftRightIcon,
   ChatBubbleBottomCenterTextIcon,
-  ExclamationCircleIcon
+  ExclamationCircleIcon,
+   ArrowDownTrayIcon
 } from '@heroicons/react/24/outline';
+
 //coockies
 import { useUser } from '@/context/UserContext';
+import SentimentAnalysisPage from '../sentiment/page';
 
 
-interface SentimentResult1 {
+/* interface SentimentResult1 {
   comentario: string;
   prevision: 'POSITIVO' | 'NEGATIVO';
   provabilidad: number;
 }
+ */
 
+// 1. Representa cada comentario individual dentro de la lista 'content'
+interface SentimentResult {
+  id: number;
+  comentario: string;
+  prevision: 'POSITIVO' | 'NEGATIVO';
+  probabilidad: number;
+  fecharegistro: string;
+}
+
+// 2. Representa el objeto completo que viene del backend (Estadísticas + Lista)
+interface SentimentApiResponse {
+  total_en_pagina: number;
+  positivos: string;
+  negativos: string;
+  content: SentimentResult[]; // Aquí usamos la interfaz de arriba
+  totalElements: number;
+  totalPages: number;
+  number: number;
+}
 
 
 export default function StatisticsPage() {
@@ -29,8 +52,13 @@ export default function StatisticsPage() {
   const token = user?.token;
   // const token = await cookieStore.get("session_token");
   const [comment, setComment] = useState('');
-  const [results, setResults] = useState<SentimentResult1[]>([]);
-  const [midata, setMidata] = useState<{ total_en_pagina: number; positivos: number; negativos: number } | null>(null);
+  //const [results, setResults] = useState<SentimentResult1[]>([]);
+  // Ejemplo de uso en el estado
+  const [dataResponse, setDataResponse] = useState<SentimentApiResponse | null>(null);
+   const [resultado, setResultado] = useState<SentimentResult[]>([]);
+  //const [midata, setMidata] = useState<{ total_en_pagina: number; positivos: number; negativos: number } | null>(null);
+  const [uploadStatus, setUploadStatus] = useState<'success' | 'error' | null>(null);
+  const [dowLoading, setDowloading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
 
@@ -58,6 +86,76 @@ export default function StatisticsPage() {
   }
   // console.log("tokennnn  ", token)
 
+  ///  INICIO FUNCTION EXPORT CSV
+
+const handleExportCSV = (e: React.MouseEvent<HTMLButtonElement>) => {
+  e.preventDefault();
+
+// 1. Validar que tengamos datos (usando el nombre de tu variable de estado)
+  if (!dataResponse || !dataResponse.content) {
+    setMessage("No hay datos para exportar");
+    return;
+  }
+
+  try {
+    setDowloading(true);
+
+    // 2. Definir los encabezados y metadatos
+    const headers = ["ID", "   Comentario", "     Prevision", "    Probabilidad", "    Fecha Registro "];
+    
+    // 3. Crear las filas de metadatos (Resumen)
+    let csvContent = `\n RESUMEN DE ANALISIS DE LOS ULTIMOS ${dataResponse.total_en_pagina} COMENTARIOS \n\n `;
+    csvContent += ` Total en pagina, ${dataResponse.total_en_pagina}\n`;
+    csvContent += ` Positivos, ${dataResponse.positivos}\n`;
+    csvContent += ` Negativos, ${dataResponse.negativos}\n\n\n`; // Espacio extra
+    
+    // 4. Agregar encabezados de la tabla
+    csvContent += headers.join(",") + "\n";
+
+    // 5. Mapear los datos del 'content'
+    const rows = dataResponse.content.map((item: any) => {
+      // Limpiamos el texto: quitamos saltos de línea y escapamos comillas dobles
+      const comentarioLimpio = item.comentario.replace(/\n/g, " ").replace(/"/g, '""');
+      
+      return [
+        item.id,
+        `"${comentarioLimpio}"`, // Envolvemos en comillas por si hay comas en el texto
+        item.prevision,
+        item.probabilidad,
+        `"${item.fecharegistro}"`
+      ].join(",");
+    });
+
+    csvContent += rows.join("\n");
+
+    // 6. Crear el archivo (Blob) y descargar
+    // Usamos el tipo MIME para CSV y forzamos codificación UTF-8 para las tildes
+    const blob = new Blob(["\ufeff" + csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    
+    link.setAttribute("href", url);
+    link.setAttribute("download", `reporte_sentimientos_${new Date().getTime()}.csv`);
+    link.style.visibility = 'hidden';
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    setMessage("CSV generado localmente con éxito");
+    setUploadStatus('success');
+
+  } catch (err) {
+    console.error("Error al generar CSV:", err);
+    setMessage("Error al generar el archivo");
+    setUploadStatus('error');
+  } finally {
+    setDowloading(false);
+  }
+};
+
+  // FIN
+
   const handleAnalyze = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -82,10 +180,11 @@ export default function StatisticsPage() {
       // console.log("payload:: ", payload);
 
       const data = await response.json();
-      console.log("data  :::  ", data.total_en_pagina)
-       console.log("data 2 :::  ", data)
-      setResults(data.content);
-      setMidata(data);
+     // console.log("data  :::  ", data.total_en_pagina)
+      console.log("data 2 :::  ", data)
+       setDataResponse(data);
+      setResultado(data?.content);
+      //setMidata(data);
     } catch (err: any) {
       // Si el error es de conexión (Servidor apagado)
       if (err.message === "Failed to fetch") {
@@ -122,7 +221,7 @@ export default function StatisticsPage() {
             />
             <button
               disabled={loading}
-              className="w-full bg-linear-to-r from-primary to-three text-white px-6 py-3 rounded-xl
+              className="w-full bg-linear-to-r from-primary/80 to-three text-white px-6 py-3 rounded-xl
                font-bold hover:shadow-lg hover:shadow-primary/30 transition-all active:scale-95 disabled:opacity-50"
             >
               {loading ? "Procesando..." : "Analizar"}
@@ -146,7 +245,7 @@ export default function StatisticsPage() {
               <ChatBubbleBottomCenterTextIcon className="w-6 h-6" />
             </div>
             <span className="text-gray-500 text-xs font-medium uppercase">Total Comentarios</span>
-            <p className="text-3xl font-bold text-gray-800">{midata?.total_en_pagina ?? 0}</p>
+            <p className="text-3xl font-bold text-gray-800">{dataResponse?.total_en_pagina ?? 0}</p>
           </div>
 
           {/* Card: Positivos */}
@@ -155,7 +254,7 @@ export default function StatisticsPage() {
               <FaceSmileIcon className="w-6 h-6" />
             </div>
             <span className="text-gray-500 text-xs font-medium uppercase">Positivos</span>
-            <p className="text-3xl font-bold text-green-700">{midata?.positivos}</p>
+            <p className="text-3xl font-bold text-green-700">{dataResponse?.positivos}</p>
           </div>
 
           {/* Card: Negativos */}
@@ -164,20 +263,41 @@ export default function StatisticsPage() {
               <FaceFrownIcon className="w-6 h-6" />
             </div>
             <span className="text-gray-500 text-xs font-medium uppercase">Negativos</span>
-            <p className="text-3xl font-bold text-red-700">{midata?.negativos}</p>
+            <p className="text-3xl font-bold text-red-700">{dataResponse?.negativos}</p>
           </div>
 
         </div>
       </section>
 
       {/* Tabla de Resultados */}
-      {results.length > 0 && (
+      {resultado?.length > 0 && (
         <section className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100 animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <div className="p-6 border-b border-gray-50 bg-gray-50/50">
+          <div className="p-6 border-b border-gray-50 bg-gray-50/50 flex justify-between items-center">
             <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
               <ChatBubbleLeftRightIcon className="h-6 w-6 text-primary" />
               Resultados del Modelo
-            </h2>
+            </h2>   
+             {/* BOTÓN DE EXPORTACIÓN */}
+              <button
+                onClick={handleExportCSV}
+                disabled={dowLoading}
+                className="group relative flex items-center gap-2 px-5 py-2.5 bg-linear-to-r from-primary/80 to-three text-white text-sm font-semibold rounded-xl shadow-md shadow-emerald-200 transition-all duration-200 active:scale-95 disabled:bg-gray-300 disabled:shadow-none disabled:cursor-not-allowed"
+              >
+                {dowLoading ? (
+                  <>
+                    <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>Generando...</span>
+                  </>
+                ) : (
+                  <>
+                    <ArrowDownTrayIcon className="h-4 w-4 group-hover:translate-y-0.5 transition-transform" />
+                    <span>Exportar CSV</span>
+                  </>
+                )}
+              </button>
           </div>
 
           <div className="overflow-x-auto">
@@ -190,7 +310,7 @@ export default function StatisticsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {results.map((res, index) => (
+                {resultado?.map((res, index) => (
                   <tr key={index} className="hover:bg-gray-50/80 transition-colors">
                     <td className="px-6 py-4 text-gray-700 max-w-md truncate">
                       {res.comentario}
@@ -207,13 +327,13 @@ export default function StatisticsPage() {
                     <td className="px-6 py-4 text-center">
                       <div className="flex flex-col items-center">
                         <span className="text-sm font-mono font-bold text-gray-600">
-                          {(res.provabilidad * 100).toFixed(1)}%
+                          {(res.probabilidad * 100).toFixed(1)}%
                         </span>
                         {/* Barra de progreso miniatura */}
                         <div className="w-16 h-1.5 bg-gray-200 rounded-full mt-1 overflow-hidden">
                           <div
                             className={`h-full rounded-full ${res.prevision === 'POSITIVO' ? 'bg-green-500' : 'bg-red-500'}`}
-                            style={{ width: `${res.provabilidad * 100}%` }}
+                            style={{ width: `${res.probabilidad * 100}%` }}
                           />
                         </div>
                       </div>
@@ -228,3 +348,5 @@ export default function StatisticsPage() {
     </div>
   );
 }
+
+//////
