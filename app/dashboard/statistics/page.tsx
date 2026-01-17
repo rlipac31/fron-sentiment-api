@@ -17,12 +17,6 @@ import { useUser } from '@/context/UserContext';
 import SentimentAnalysisPage from '../sentiment/page';
 
 
-/* interface SentimentResult1 {
-  comentario: string;
-  prevision: 'POSITIVO' | 'NEGATIVO';
-  provabilidad: number;
-}
- */
 
 // 1. Representa cada comentario individual dentro de la lista 'content'
 interface SentimentResult {
@@ -166,7 +160,7 @@ const handleExportCSV = (e: React.MouseEvent<HTMLButtonElement>) => {
       { texto: comment }
     ];
     const nunComent = parseInt(comment);
-    console.log("numero de comentarios ", nunComent)
+    //console.log("numero de comentarios ", nunComent)
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/stats?size=${nunComent}`, {
@@ -181,7 +175,7 @@ const handleExportCSV = (e: React.MouseEvent<HTMLButtonElement>) => {
 
       const data = await response.json();
      // console.log("data  :::  ", data.total_en_pagina)
-      console.log("data 2 :::  ", data)
+    //  console.log("data 2 :::  ", data)
        setDataResponse(data);
       setResultado(data?.content);
       //setMidata(data);

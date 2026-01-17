@@ -19,7 +19,7 @@ import { setTimeout } from 'node:timers/promises';
 // Interfaz para el tipado de los datos del backend
 interface AnalisisResultado {
   texto: string;
-  prevision: 'positivo' | 'negativo';
+  prevision: 'POSITIVO' | 'NEGATIVO';
   probabilidad: number;
 }
 
@@ -175,7 +175,7 @@ const handleExportCSV = async (e: React.MouseEvent<HTMLButtonElement>) => {
 
     const data = await response.json();
     setResultados(data);
-    console.log("data:: ", data)
+   // console.log("data:: ", data)
     setMessage('¡Excelente! El archivo se procesó correctamente.');
     setUploadStatus('success');
     setSelectedFile(null); 
@@ -297,11 +297,11 @@ const handleExportCSV = async (e: React.MouseEvent<HTMLButtonElement>) => {
                     </td>
                     <td className="px-6 py-4">
                       <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase ${
-                        item.prevision === 'positivo' 
+                        item.prevision === 'POSITIVO' 
                           ? 'bg-green-50 text-green-600 border border-green-100' 
                           : 'bg-red-50 text-red-600 border border-red-100'
                       }`}>
-                        {item.prevision === 'positivo' ? <FaceSmileIcon className="h-4 w-4" /> : <FaceFrownIcon className="h-4 w-4" />}
+                        {item.prevision === 'POSITIVO' ? <FaceSmileIcon className="h-4 w-4" /> : <FaceFrownIcon className="h-4 w-4" />}
                         {item.prevision}
                       </div>
                     </td>
@@ -309,7 +309,7 @@ const handleExportCSV = async (e: React.MouseEvent<HTMLButtonElement>) => {
                       <div className="flex items-center gap-2">
                         <div className="w-16 bg-gray-100 rounded-full h-1.5">
                           <div 
-                            className={`h-1.5 rounded-full ${item.prevision === 'positivo' ? 'bg-green-400' : 'bg-red-400'}`} 
+                            className={`h-1.5 rounded-full ${item.prevision === 'POSITIVO' ? 'bg-green-400' : 'bg-red-400'}`} 
                             style={{ width: `${item.probabilidad * 100}%` }}
                           ></div>
                         </div>

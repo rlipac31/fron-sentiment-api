@@ -26,15 +26,16 @@ export async function loginAction(prevState: any, formData: FormData) {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
-        maxAge: 60 * 60 * 1,
+        maxAge: 60 * 60 * 2,
         path: "/",
       });
+    
     } else {
       return { error: "No se recibió un token válido." };
     }
   } catch (error) {
     // Aquí atrapamos si el servidor de Spring Boot está caído
-    console.error("Error de conexión:", error);
+   // console.error("Error de conexión:", error);
     return { error: "El servicio de autenticación no está disponible." };
   }
 

@@ -78,11 +78,10 @@ export default  function DashboardPage() {
         },
         body: JSON.stringify(dataToAnalyze),
       });
-      console.log("payload:: ", dataToAnalyze);
-
+     
       const data = await response.json();
       setResults(data);
-      console.log("data:: ", data);
+
     } catch (error) {
       console.error("Error:", error);
     } finally {
