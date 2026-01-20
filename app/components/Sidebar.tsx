@@ -14,10 +14,10 @@ import {
 import { logout } from "../actions/logout";
 
 const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
+  { name: 'Sentiment', href: '/sentiment', icon: HomeIcon },
   //{ name: 'Análisis de Sentimiento', href: '/dashboard/sentiment', icon: FaceSmileIcon },
-  { name: 'Estadísticas', href: '/dashboard/statistics', icon: ChartBarIcon },
-  { name: 'Subir CSV', href: '/dashboard/upload-csv', icon: CloudArrowUpIcon },
+  { name: 'Estadísticas', href: '/sentiment/statistics', icon: ChartBarIcon },
+  { name: 'Subir CSV', href: '/sentiment/upload-csv', icon: CloudArrowUpIcon },
 ];
 
 export default function Sidebar() {

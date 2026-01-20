@@ -93,7 +93,7 @@ export default  function DashboardPage() {
     <div className="space-y-8">
       <header>
         <h1 className="text-4xl font-extrabold text-gray-800">Panel de Análisis</h1>
-        <p className="text-gray-500">Procesa comentarios individuales o masivos.</p>
+        <p className="text-gray-500">Procesa comentarios individuales.</p>
       </header>
 
       {/* Sección de Input */}

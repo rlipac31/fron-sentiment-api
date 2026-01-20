@@ -195,7 +195,7 @@ const handleExportCSV = async (e: React.MouseEvent<HTMLButtonElement>) => {
 
   return (
     <div className="p-8 bg-gray-50 min-h-screen">
-      <h1 className="text-4xl font-extrabold text-gray-800 mb-8">Análisis de Reseñas</h1>
+      <h1 className="text-4xl font-extrabold text-gray-800 mb-8">Análisis de Masivo</h1>
       
       {/* SECCIÓN 1: FORMULARIO (Diseño limpio anterior) */}
       <div className="bg-white rounded-xl shadow-lg p-8 border-l-4 border-three mb-10">

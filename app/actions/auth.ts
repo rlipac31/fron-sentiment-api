@@ -41,5 +41,5 @@ export async function loginAction(prevState: any, formData: FormData) {
 
   // El redirect debe ir FUERA del bloque try/catch en Next.js
   // porque redirect() lanza internamente un error que Next usa para saltar de página
-  redirect("/dashboard");
+  redirect("/sentiment");
 }

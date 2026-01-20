@@ -194,8 +194,8 @@ const handleExportCSV = (e: React.MouseEvent<HTMLButtonElement>) => {
   return (
     <div className="space-y-8">
       <header>
-        <h1 className="text-4xl font-extrabold text-gray-800">Panel de Análisis</h1>
-        <p className="text-gray-500">Procesa comentarios individuales o masivos.</p>
+        <h1 className="text-4xl font-extrabold text-gray-800">Panel de Análisis Estadistico</h1>
+        <p className="text-gray-500">Lista comentarios masivos mas recientes guardados en la base de datos.</p>
       </header>
 
 
@@ -204,7 +204,7 @@ const handleExportCSV = (e: React.MouseEvent<HTMLButtonElement>) => {
 
         {/* SECCIÓN 1: Formulario (Máximo 30% de ancho) */}
         <div className="w-full md:w-[30%] border-r border-gray-100 pr-4">
-          <h3 className="text-gray-500 text-sm font-semibold mb-4 uppercase tracking-wider">Configuración</h3>
+          <h3 className="text-gray-500 text-sm font-semibold mb-4 uppercase tracking-wider">Numero de registros solicitados</h3>
           <form onSubmit={handleAnalyze} className="space-y-4">
             <input
               type="number"
