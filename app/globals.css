@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 
-@theme {
+ @theme {
   --color-primary: #001524;
   --color-secondary: #15616d;
   --color-three: #875ABE;
@@ -9,4 +9,6 @@
   --color-five: #B438AE;
   --color-accent: #CA27A6;
   --color-white: #FFFFFF;
-}
+} 
+
+/* Opcional: Para asegurar que el texto sea legible sobre fondos oscuros */

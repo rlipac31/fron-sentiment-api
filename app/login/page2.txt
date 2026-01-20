@@ -1,0 +1,30 @@
+import Link from 'next/link';
+
+export default function LoginPage() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <div className="max-w-md w-full bg-white p-10 rounded-2xl shadow-xl border border-gray-100">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold text-[--color-primary]">Bienvenido a SentimentAPI</h2>
+          <p className="text-gray-500 mt-2">Ingresa tus credenciales para continuar</p>
+        </div>
+        <form className="space-y-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Email</label>
+            <input type="email" className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-[--color-three] focus:border-[--color-three]" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Contraseña</label>
+            <input type="password" className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-[--color-three] focus:border-[--color-three]" />
+          </div>
+          <button className="w-full py-3 bg-[--color-primary] text-white rounded-lg font-bold hover:bg-[--color-secondary] transition-colors">
+            Acceder
+          </button>
+        </form>
+        <div className="mt-6 text-center">
+          <Link href="/" className="text-sm text-[--color-three] hover:underline">Volver al inicio</Link>
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -10,5 +10,5 @@ export async function logout() {
   cookieStore.delete("session_token");
 
   // Redirigimos al login
-  redirect("/login");
+  redirect("/");
 }

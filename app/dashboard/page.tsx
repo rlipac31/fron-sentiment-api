@@ -129,8 +129,8 @@ export default  function DashboardPage() {
               <thead>
                 <tr className="bg-gray-50 text-gray-500 text-sm uppercase tracking-wider">
                   <th className="px-6 py-4 font-semibold">Comentario</th>
-                  <th className="px-6 py-4 font-semibold text-center">Sentimiento</th>
-                  <th className="px-6 py-4 font-semibold text-center">Confianza</th>
+                  <th className="px-6 py-4 font-semibold text-center">Prevision</th>
+                  <th className="px-6 py-4 font-semibold text-center">Probabilidad</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
