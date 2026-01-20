@@ -53,7 +53,7 @@ export default function LoginPage() {
           <button
             disabled={isPending}
             type="submit"
-            className="w-full py-3 px-4 bg-primary hover:bg-secondary text-white font-semibold rounded-lg shadow-lg hover:shadow-primary/30 transition-all transform active:scale-95"
+            className="w-full py-3 px-4 bg-primary hover:bg-accent text-white font-semibold rounded-lg shadow-lg hover:shadow-primary/30 transition-all transform active:scale-95"
           >
            {isPending ? "Cargando..." : "Iniciar Sesión"}
           </button>
