@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-primary text-[--color-primary] selection:bg-[--color-three] selection:text-white">
+    <div className="min-h-screen bg-primary text-[--color-primary] selection:bg-[--color-secundary] selection:text-white">
       {/* Navegación Estilo Dashboard */}
       <nav className="flex items-center justify-between px-10 py-5 bg-three shadow-sm sticky top-0 z-50">
         <div className="flex items-center gap-2">

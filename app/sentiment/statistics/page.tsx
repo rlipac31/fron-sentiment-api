@@ -248,7 +248,12 @@ const handleExportCSV = (e: React.MouseEvent<HTMLButtonElement>) => {
               <FaceSmileIcon className="w-6 h-6" />
             </div>
             <span className="text-gray-500 text-xs font-medium uppercase">Positivos</span>
-            <p className="text-3xl font-bold text-green-700">{dataResponse?.positivos}</p>
+            
+            <p className="text-3xl font-bold text-green-700">
+              {dataResponse?.positivos 
+            ? parseFloat(dataResponse.positivos).toFixed(1) 
+            : 0}%
+            </p>
           </div>
 
           {/* Card: Negativos */}
@@ -257,7 +262,11 @@ const handleExportCSV = (e: React.MouseEvent<HTMLButtonElement>) => {
               <FaceFrownIcon className="w-6 h-6" />
             </div>
             <span className="text-gray-500 text-xs font-medium uppercase">Negativos</span>
-            <p className="text-3xl font-bold text-red-700">{dataResponse?.negativos}</p>
+            <p className="text-3xl font-bold text-red-700">
+              {dataResponse?.negativos 
+                ? parseFloat(dataResponse.negativos).toFixed(1) 
+                : 0}%
+            </p>
           </div>
 
         </div>
@@ -319,6 +328,7 @@ const handleExportCSV = (e: React.MouseEvent<HTMLButtonElement>) => {
                       </span>
                     </td>
                     <td className="px-6 py-4 text-center">
+                      
                       <div className="flex flex-col items-center">
                         <span className="text-sm font-mono font-bold text-gray-600">
                           {(res.probabilidad * 100).toFixed(1)}%
@@ -327,7 +337,7 @@ const handleExportCSV = (e: React.MouseEvent<HTMLButtonElement>) => {
                         <div className="w-16 h-1.5 bg-gray-200 rounded-full mt-1 overflow-hidden">
                           <div
                             className={`h-full rounded-full ${res.prevision === 'POSITIVO' ? 'bg-green-500' : 'bg-red-500'}`}
-                            style={{ width: `${res.probabilidad * 100}%` }}
+                            style={{ width: `${res.probabilidad * 100} %` }}
                           />
                         </div>
                       </div>
