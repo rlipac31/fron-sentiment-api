@@ -50,7 +50,9 @@ Sigue estos pasos para ejecutar el proyecto localmente:
 3. **Configurar variables de entorno:**
     Crea un archivo .env.local en la raíz y añade la URL de tu API:
     ````
-    NEXT_PUBLIC_API_URL=[https://tu-api-de-sentimientos.com](https://tu-api-de-sentimientos.com)
+    NEXT_PUBLIC_API_URL=[https://tu-api-de-java.com]
+    # o
+    NEXT_PUBLIC_API_URL=http://localhost:8090
 
     ````
  4. **Iniciar el servidor de desarrollo:**
