@@ -1,35 +1,77 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎭 Sentiment Analysis Interface (Fron-Sentiment-API)
 
-## Getting Started
+![Next.js](https://img.shields.io/badge/Next.js-15-black)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-blue)
+![Node.js](https://img.shields.io/badge/Node.js-LTS-green)
+![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-black)
 
-First, run the development server:
+**Fron-Sentiment-API** es una interfaz web moderna y de alto rendimiento diseñada para interactuar con servicios de análisis de sentimientos. Permite procesar texto en tiempo real para determinar tonos emocionales (positivo, negativo, neutral) utilizando un stack tecnológico de vanguardia.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Características Principales
 
+* **Análisis en Tiempo Real:** Interfaz optimizada para obtener resultados instantáneos mediante peticiones asíncronas.
+* **UI/UX Profesional:** Diseño minimalista y responsivo construido con **Tailwind CSS 4**, enfocado en la legibilidad de datos.
+* **Integración de API:** Consumo eficiente de endpoints de Node.js/Python para el procesamiento de Lenguaje Natural (NLP).
+* **Arquitectura Escalable:** Estructura basada en Next.js *App Router* para un renderizado óptimo y SEO friendly.
 
+---
 
-## Learn More
+## 🛠️ Stack Tecnológico
 
-To learn more about Next.js, take a look at the following resources:
+| Capa | Tecnología |
+| :--- | :--- |
+| **Frontend** | [Next.js 15](https://nextjs.org/) (React 19) |
+| **Estilos** | [Tailwind CSS 4](https://tailwindcss.com/) |
+| **Backend** | Node.js / Express (Consumo de API de Sentimientos) |
+| **Despliegue** | Vercel |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📦 Instalación y Configuración
 
-## Deploy on Vercel
+Sigue estos pasos para ejecutar el proyecto localmente:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. **Clonar el repositorio:**
+   ```bash
+   git clone [https://github.com/rlipac31/fron-sentiment-api.git](https://github.com/rlipac31/fron-sentiment-api.git)
+   cd fron-sentiment-api
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-#fron-sentimentapi
+2. **Instalar dependencias**   
+   
+   ````
+    npm install
+        # o
+    yarn install
+
+   ````
+
+3. **Configurar variables de entorno:**
+    Crea un archivo .env.local en la raíz y añade la URL de tu API:
+    ````
+    NEXT_PUBLIC_API_URL=[https://tu-api-de-sentimientos.com](https://tu-api-de-sentimientos.com)
+
+    ````
+ 4. **Iniciar el servidor de desarrollo:**
+
+ ````
+  pnpm run dev 
+   #o 
+  npm run dev
+
+ ````    
+   ### Accede a http://localhost:3000 para ver el resultado.
+
+  ## ⚙️ Estructura del Proyecto
+  ````
+    ├── app/                # App Router (Pages, Layouts)
+    ├── components/         # Componentes UI reutilizables
+    ├── public/             # Assets estáticos (imágenes, iconos)
+    ├── styles/             # Configuraciones de Tailwind 4
+    └── utils/              # Funciones auxiliares y llamadas a la API
+
+  ```` 
+  ## 📄 
+  
+  ##### Este proyecto está bajo la licencia MIT. Puedes usarlo y modificarlo libremente para fines personales o comerciales.
