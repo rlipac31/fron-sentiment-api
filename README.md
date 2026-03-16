@@ -5,7 +5,7 @@
 ![Node.js](https://img.shields.io/badge/Node.js-LTS-green)
 ![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-black)
 
-**Fron-Sentiment-API** es una interfaz web moderna y de alto rendimiento diseñada para interactuar con servicios de análisis de sentimientos. Permite procesar texto en tiempo real para determinar tonos emocionales (positivo, negativo, neutral) utilizando un stack tecnológico de vanguardia.
+**Fron-Sentiment-API** es una interfaz web moderna y de alto rendimiento diseñada para interactuar con servicios de análisis de sentimientos. Permite procesar texto en tiempo real para determinar tonos emocionales (positivo, negativo) utilizando un stack tecnológico de vanguardia.Este frontend consume una api contruida en Java Sprin([text](https://github.com/rlipac31/back_sentimenAPI_Hakaton)) y que asu ves consume un microservicio de Python([text](https://github.com/rlipac31/API-PYTHON_sentimentAPI)) elaborado con Flask donde reside el modelo de IA entrenado con un dataset de reseñas de peliculas.
 
 ---
 
